@@ -14,7 +14,7 @@
 #import <ImSDK/ImSDK.h>
 
 #define TIM_INSTANCE [TIMManager sharedInstance]
-#define DEFINE_IM(NAME) TXIMManager *NAME = TXIM_INSTANCE
+#define DEFINE_IM(NAME) TIMManager *NAME = TIM_INSTANCE
 #define IM_LOG(LEVEL, TAG, MSG, ...) [TIM_INSTANCE log:LEVEL tag:TAG msg:[NSString stringWithFormat:MSG, ##__VA_ARGS__]]
 #define IM_LOG_TAG_DEBUG(TAG, MSG, ...) IM_LOG(TIM_LOG_DEBUG, TAG, MSG, ##__VA_ARGS__)
 #define IM_LOG_TAG_INFO(TAG, MSG, ...) IM_LOG(TIM_LOG_INFO, TAG, MSG, ##__VA_ARGS__)
