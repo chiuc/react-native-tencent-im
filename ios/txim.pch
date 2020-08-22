@@ -1,0 +1,24 @@
+//
+//  txim.pch
+//  Pods
+//
+//  Created by Choi Wing Chiu on 22/8/2020.
+//
+
+#ifndef txim_pch
+#define txim_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#import <ImSDK/ImSDK.h>
+
+#define TIM_INSTANCE [TIMManager sharedInstance]
+#define DEFINE_IM(NAME) TXIMManager *NAME = TXIM_INSTANCE
+#define IM_LOG(LEVEL, TAG, MSG, ...) [TIM_INSTANCE log:LEVEL tag:TAG msg:[NSString stringWithFormat:MSG, ##__VA_ARGS__]]
+#define IM_LOG_TAG_DEBUG(TAG, MSG, ...) IM_LOG(TIM_LOG_DEBUG, TAG, MSG, ##__VA_ARGS__)
+#define IM_LOG_TAG_INFO(TAG, MSG, ...) IM_LOG(TIM_LOG_INFO, TAG, MSG, ##__VA_ARGS__)
+#define IM_LOG_TAG_WARN(TAG, MSG, ...) IM_LOG(TIM_LOG_WARN, TAG, MSG, ##__VA_ARGS__)
+#define IM_LOG_TAG_ERROR(TAG, MSG, ...) IM_LOG(TIM_LOG_ERROR, TAG, MSG, ##__VA_ARGS__)
+
+#endif /* txim_pch */

@@ -12,3 +12,4 @@ extern NSString *const EventNameLoginStatus;
 extern NSString *const EventNameInitializeStatus;
 extern NSString *const EventNameUserStatusChange;
 extern NSString *const EventNameOnNewMessage;
+extern NSString *const EventNameConversationUpdate;

@@ -18,6 +18,7 @@ Pod::Spec.new do |s|
   s.platforms    = { :ios => "9.0" }
   s.source       = { :git => "https://github.com/github_account/react-native-tencent-im.git", :tag => "#{s.version}" }
 
+  s.prefix_header_file = 'ios/txim.pch'
   s.source_files = "ios/**/*.{h,c,m,swift}"
   s.requires_arc = true
 

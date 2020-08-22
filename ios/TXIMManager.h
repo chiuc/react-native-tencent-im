@@ -7,10 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <ImSDK/ImSDK.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface TXIMManager : NSObject
+@interface TXIMManager : NSObject <V2TIMSDKListener>
+
++ (instancetype)getInstance;
+
+- (BOOL)initWithAppId:(NSString* )appId;
+
+- (void)setConversationListener:(id <V2TIMConversationListener>)listener;
 
 @end
 

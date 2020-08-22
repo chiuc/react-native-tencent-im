@@ -6,7 +6,7 @@
 //  Copyright © 2020 Facebook. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <ImSDK/ImSDK.h>
 #import "RCTEventEmitter+TXIMBaseModule.h"
 
 NS_ASSUME_NONNULL_BEGIN

@@ -12,3 +12,4 @@ NSString *const EventNameLoginStatus = @"loginStatus";
 NSString *const EventNameInitializeStatus = @"initializeStatus";
 NSString *const EventNameUserStatusChange = @"userStatus";
 NSString *const EventNameOnNewMessage = @"onNewMessage";
+NSString *const EventNameConversationUpdate  = @"onConversationUpdate";
