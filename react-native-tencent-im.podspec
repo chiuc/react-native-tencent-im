@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/github_account/react-native-tencent-im.git", :tag => "#{s.version}" }
 
   s.prefix_header_file = 'ios/txim.pch'
-  s.source_files = "ios/*.{h,c,m,swift}, ios/{Constant,Listener,Message,Module}/*.{h,m}"
+  s.source_files = "ios/**/*.{h,c,m,swift}"
   s.requires_arc = true
 
   s.dependency "React"
