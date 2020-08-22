@@ -11,6 +11,11 @@
     "ios",
     "react-native-tencent-im.podspec"
   ],
+  "directories": {
+    "android": "android",
+    "ios": "ios",
+    "lib": "lib"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
