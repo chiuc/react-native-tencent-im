@@ -6,20 +6,44 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		36CA1CF4E17B0EC90FBEE802 /* libPods-TencentIm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 750FCB97F28FC4EB47D2589B /* libPods-TencentIm.a */; };
+		C8C7244C24F1380B009BAF26 /* TXIMManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C8C7244B24F1380B009BAF26 /* TXIMManager.m */; };
+		C8C7244F24F13857009BAF26 /* TXIMBaseListener.m in Sources */ = {isa = PBXBuildFile; fileRef = C8C7244E24F13857009BAF26 /* TXIMBaseListener.m */; };
+		C8C7245224F1387A009BAF26 /* TXIMEventNameConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = C8C7245124F1387A009BAF26 /* TXIMEventNameConstant.m */; };
+		C8C7245524F138CD009BAF26 /* RCTEventEmitter+TXIMBaseModule.m in Sources */ = {isa = PBXBuildFile; fileRef = C8C7245424F138CD009BAF26 /* RCTEventEmitter+TXIMBaseModule.m */; };
+		C8C7245824F138DA009BAF26 /* TXIMInitializeModule.m in Sources */ = {isa = PBXBuildFile; fileRef = C8C7245724F138DA009BAF26 /* TXIMInitializeModule.m */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXCopyFilesBuildPhase section */
-		58B511D91A9E6C8500147676 /* CopyFiles */ = {
+		58B511D91A9E6C8500147676 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
 			);
+			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libTencentIm.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libTencentIm.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		4DF0CDDFE2986A272513D02A /* Pods-TencentIm.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TencentIm.debug.xcconfig"; path = "Target Support Files/Pods-TencentIm/Pods-TencentIm.debug.xcconfig"; sourceTree = "<group>"; };
+		55A1EF0A35F3E555C999A1C6 /* Pods-TencentIm.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TencentIm.release.xcconfig"; path = "Target Support Files/Pods-TencentIm/Pods-TencentIm.release.xcconfig"; sourceTree = "<group>"; };
+		750FCB97F28FC4EB47D2589B /* libPods-TencentIm.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TencentIm.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8C7244A24F1380B009BAF26 /* TXIMManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TXIMManager.h; sourceTree = "<group>"; };
+		C8C7244B24F1380B009BAF26 /* TXIMManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TXIMManager.m; sourceTree = "<group>"; };
+		C8C7244D24F13857009BAF26 /* TXIMBaseListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TXIMBaseListener.h; sourceTree = "<group>"; };
+		C8C7244E24F13857009BAF26 /* TXIMBaseListener.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TXIMBaseListener.m; sourceTree = "<group>"; };
+		C8C7245024F1387A009BAF26 /* TXIMEventNameConstant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TXIMEventNameConstant.h; sourceTree = "<group>"; };
+		C8C7245124F1387A009BAF26 /* TXIMEventNameConstant.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TXIMEventNameConstant.m; sourceTree = "<group>"; };
+		C8C7245324F138CD009BAF26 /* RCTEventEmitter+TXIMBaseModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RCTEventEmitter+TXIMBaseModule.h"; sourceTree = "<group>"; };
+		C8C7245424F138CD009BAF26 /* RCTEventEmitter+TXIMBaseModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "RCTEventEmitter+TXIMBaseModule.m"; sourceTree = "<group>"; };
+		C8C7245624F138DA009BAF26 /* TXIMInitializeModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TXIMInitializeModule.h; sourceTree = "<group>"; };
+		C8C7245724F138DA009BAF26 /* TXIMInitializeModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TXIMInitializeModule.m; sourceTree = "<group>"; };
+		C8C7245924F1437C009BAF26 /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36CA1CF4E17B0EC90FBEE802 /* libPods-TencentIm.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,8 +69,62 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				C8C7244924F137E9009BAF26 /* Listener */,
+				C8C7244824F137DC009BAF26 /* Constant */,
+				C8C7244724F137C9009BAF26 /* Module */,
+				C8C7244A24F1380B009BAF26 /* TXIMManager.h */,
+				C8C7244B24F1380B009BAF26 /* TXIMManager.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
+				FD86BDAAFADF29BC668AF67D /* Pods */,
+				690CD6C0EB94CE144C20CAE5 /* Frameworks */,
 			);
+			sourceTree = "<group>";
+		};
+		690CD6C0EB94CE144C20CAE5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C8C7245924F1437C009BAF26 /* libReact.a */,
+				750FCB97F28FC4EB47D2589B /* libPods-TencentIm.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C8C7244724F137C9009BAF26 /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				C8C7245324F138CD009BAF26 /* RCTEventEmitter+TXIMBaseModule.h */,
+				C8C7245424F138CD009BAF26 /* RCTEventEmitter+TXIMBaseModule.m */,
+				C8C7245624F138DA009BAF26 /* TXIMInitializeModule.h */,
+				C8C7245724F138DA009BAF26 /* TXIMInitializeModule.m */,
+			);
+			path = Module;
+			sourceTree = "<group>";
+		};
+		C8C7244824F137DC009BAF26 /* Constant */ = {
+			isa = PBXGroup;
+			children = (
+				C8C7245024F1387A009BAF26 /* TXIMEventNameConstant.h */,
+				C8C7245124F1387A009BAF26 /* TXIMEventNameConstant.m */,
+			);
+			path = Constant;
+			sourceTree = "<group>";
+		};
+		C8C7244924F137E9009BAF26 /* Listener */ = {
+			isa = PBXGroup;
+			children = (
+				C8C7244D24F13857009BAF26 /* TXIMBaseListener.h */,
+				C8C7244E24F13857009BAF26 /* TXIMBaseListener.m */,
+			);
+			path = Listener;
+			sourceTree = "<group>";
+		};
+		FD86BDAAFADF29BC668AF67D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				4DF0CDDFE2986A272513D02A /* Pods-TencentIm.debug.xcconfig */,
+				55A1EF0A35F3E555C999A1C6 /* Pods-TencentIm.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -55,9 +134,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 58B511EF1A9E6C8500147676 /* Build configuration list for PBXNativeTarget "TencentIm" */;
 			buildPhases = (
+				6CA3F589445C7A63F36E0208 /* [CP] Check Pods Manifest.lock */,
 				58B511D71A9E6C8500147676 /* Sources */,
 				58B511D81A9E6C8500147676 /* Frameworks */,
-				58B511D91A9E6C8500147676 /* CopyFiles */,
+				58B511D91A9E6C8500147676 /* Copy Files */,
 			);
 			buildRules = (
 			);
@@ -100,11 +180,41 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		6CA3F589445C7A63F36E0208 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TencentIm-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		58B511D71A9E6C8500147676 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8C7245524F138CD009BAF26 /* RCTEventEmitter+TXIMBaseModule.m in Sources */,
+				C8C7244F24F13857009BAF26 /* TXIMBaseListener.m in Sources */,
+				C8C7245224F1387A009BAF26 /* TXIMEventNameConstant.m in Sources */,
+				C8C7244C24F1380B009BAF26 /* TXIMManager.m in Sources */,
+				C8C7245824F138DA009BAF26 /* TXIMInitializeModule.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,6 +334,7 @@
 		};
 		58B511F01A9E6C8500147676 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4DF0CDDFE2986A272513D02A /* Pods-TencentIm.debug.xcconfig */;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -240,6 +351,7 @@
 		};
 		58B511F11A9E6C8500147676 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 55A1EF0A35F3E555C999A1C6 /* Pods-TencentIm.release.xcconfig */;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
