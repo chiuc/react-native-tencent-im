@@ -16,15 +16,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/github_account/react-native-tencent-im.git",
-    "baseUrl": "https://github.com/github_account/react-native-tencent-im"
+    "url": "git+https://github.com/chiuc/react-native-tencent-im.git",
+    "baseUrl": "https://github.com/chiuc/react-native-tencent-im"
   },
   "keywords": [
     "react-native"
   ],
   "author": {
-    "name": "Your Name",
-    "email": "yourname@email.com"
+    "name": "Choi Wing Chiu",
+    "email": "docm1234.wc@email.com"
   },
   "license": "MIT",
   "licenseFilename": "LICENSE",
