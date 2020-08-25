@@ -13,3 +13,4 @@ extern NSString *const EventNameInitializeStatus;
 extern NSString *const EventNameUserStatusChange;
 extern NSString *const EventNameOnNewMessage;
 extern NSString *const EventNameConversationUpdate;
+extern NSString *const EventNameANY;

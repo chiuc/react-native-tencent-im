@@ -11,6 +11,8 @@
 #import "TXIMEventNameConstant.h"
 
 #import "TXIMConversationListener.h"
+#import "TXIMSimpleMessageListener.h"
+#import "TXIMAdvancedMessageListener.h"
 
 @implementation TXIMInitializeModule
 
@@ -25,9 +27,9 @@
     
     [manager setConversationListener:[[TXIMConversationListener alloc] initWithModule:self eventName:EventNameConversationUpdate]];
     
-//  [manager setUserStatusListener:[[IMUserStatusListener alloc] initWithModule:self
-//                                                                    eventName:EventNameUserStatusChange]];
-//  [manager addMessageListener:[[IMMessageListener alloc] initWithModule:self eventName:EventNameOnNewMessage]];
+    [manager setSimpleMessageListener:[[TXIMSimpleMessageListener alloc] initWithModule:self eventName:EventNameANY]];
+    
+    [manager setAdvancedMsgListener:[[TXIMAdvancedMessageListener alloc] initWithModule:self eventName:EventNameANY]];
 }
 
 - (void)startObserving {
@@ -78,11 +80,27 @@ RCT_REMAP_METHOD(login,
                  resolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject) {
     TXIMManager *manager = [TXIMManager getInstance];
+    [manager loginWithIdentify:account userSig:userSig succ:^{
+        resolve(@{
+          @"code": @(0),
+          @"msg": @"Login Success",
+        });
+    } fail:^(int code, NSString *msg) {
+        reject([NSString stringWithFormat:@"%d", code], msg, nil);
+    }];
 }
 
 RCT_REMAP_METHOD(logout,
                  logoutWithResolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject) {
     TXIMManager *manager = [TXIMManager getInstance];
+    [manager logoutWithSucc:^{
+        resolve(@{
+          @"code": @(0),
+          @"msg": @"Logout Success",
+        });
+    } fail:^(int code, NSString *desc) {
+        reject([NSString stringWithFormat:@"%@", @(code)], desc, nil);
+    }];
 }
 @end

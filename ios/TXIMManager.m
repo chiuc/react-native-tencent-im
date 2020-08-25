@@ -17,12 +17,16 @@
     
     int sdkAppId;
     
+    NSString *businessID;
+    
     NSString *currentReceiver;
     
     NSData *deviceToken;
     
     NSDictionary *configDict;
 }
+
+#pragma mark - public method
 
 + (instancetype)getInstance {
     __strong static TXIMManager *instance;
@@ -31,6 +35,14 @@
         instance = [self new];
     });
     return instance;
+}
+
+- (void)configDeviceToken:(NSData *)token {
+    deviceToken = token;
+}
+
+- (void)configBusinessID:(NSString *)token {
+    businessID = token;
 }
 
 - (BOOL)initWithAppId:(NSString* )appId {
@@ -48,6 +60,76 @@
     if (isInit) {
         [[V2TIMManager sharedInstance] setConversationListener:listener];
     }
+}
+
+- (void)setSimpleMessageListener:(id <V2TIMSimpleMsgListener>)listener {
+    if (isInit) {
+        [[V2TIMManager sharedInstance] addSimpleMsgListener:listener];
+    }
+}
+
+- (void)setAdvancedMsgListener:(id<V2TIMAdvancedMsgListener>)listener {
+    if (isInit) {
+        [[V2TIMManager sharedInstance] addAdvancedMsgListener:listener];
+    }
+}
+
+- (void)setSignalingListener:(id<V2TIMSignalingListener>)listener{
+    if (isInit) {
+        [[V2TIMManager sharedInstance] addSignalingListener:listener];
+    }
+}
+
+- (void)loginWithIdentify:(NSString *)identify
+                userSig:(NSString *)userSig
+                   succ:(TIMSucc)succ
+                     fail:(TIMFail)fail {
+    NSLog(@"loginWithIdentify identify: %@", identify);
+    NSLog(@"loginWithIdentify userSig: %@", userSig);
+
+    void (^login)(void) = ^(void) {
+        [[V2TIMManager sharedInstance] login:identify userSig:userSig succ:^{
+            [self configAppAPNSDeviceToken];
+            succ();
+        } fail:^(int code, NSString *desc) {
+            fail(code, desc);
+        }];
+    };
+    
+    if ([[V2TIMManager sharedInstance] getLoginStatus] == V2TIM_STATUS_LOGINED) {
+        if ([[[V2TIMManager sharedInstance] getLoginUser] isEqualToString:identify]) {
+            login();
+        } else {
+            [[V2TIMManager sharedInstance] logout:^{
+                login();
+            } fail:^(int code, NSString *desc) {
+                fail(code, desc);
+            }];
+        }
+    } else {
+        login();
+    }
+}
+
+- (void)logoutWithSucc:(TIMSucc)succ fail:(TIMFail)fail {
+    if ([[V2TIMManager sharedInstance] getLoginStatus] == V2TIM_STATUS_LOGOUT) {
+        succ();
+    } else {
+        [[V2TIMManager sharedInstance] logout:succ fail:fail];
+    }
+}
+
+#pragma mark - private method
+
+- (void)configAppAPNSDeviceToken {
+    V2TIMAPNSConfig *confg = [[V2TIMAPNSConfig alloc] init];
+    confg.businessID = [businessID intValue];
+    confg.token = deviceToken;
+    [[V2TIMManager sharedInstance] setAPNS:confg succ:^{
+        NSLog(@"[TXIMManager] configAppAPNSDeviceToken #success");
+    } fail:^(int code, NSString *desc) {
+        NSLog(@"[TXIMManager] configAppAPNSDeviceToken #fail reason:%@", desc);
+    }];
 }
 
 - (void)onConnecting {
