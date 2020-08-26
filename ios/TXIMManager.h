@@ -32,6 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)logoutWithSucc:(V2TIMSucc)succ fail:(V2TIMFail)fail;
 
+- (void)getConversationList:(V2TIMConversationResultSucc)succ fail:(V2TIMFail)fail;
+
 - (void)configDeviceToken:(NSData *)token;
 
 - (void)configBusinessID:(NSString *)token;

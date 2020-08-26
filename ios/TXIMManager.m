@@ -82,11 +82,8 @@
 
 - (void)loginWithIdentify:(NSString *)identify
                 userSig:(NSString *)userSig
-                   succ:(TIMSucc)succ
-                     fail:(TIMFail)fail {
-    NSLog(@"loginWithIdentify identify: %@", identify);
-    NSLog(@"loginWithIdentify userSig: %@", userSig);
-
+                   succ:(V2TIMSucc)succ
+                     fail:(V2TIMFail)fail {
     void (^login)(void) = ^(void) {
         [[V2TIMManager sharedInstance] login:identify userSig:userSig succ:^{
             [self configAppAPNSDeviceToken];
@@ -111,11 +108,21 @@
     }
 }
 
-- (void)logoutWithSucc:(TIMSucc)succ fail:(TIMFail)fail {
+- (void)logoutWithSucc:(V2TIMSucc)succ fail:(V2TIMFail)fail {
     if ([[V2TIMManager sharedInstance] getLoginStatus] == V2TIM_STATUS_LOGOUT) {
         succ();
     } else {
         [[V2TIMManager sharedInstance] logout:succ fail:fail];
+    }
+}
+
+- (void)getConversationList:(V2TIMConversationResultSucc)succ fail:(V2TIMFail)fail {
+    if ([[V2TIMManager sharedInstance] getLoginStatus] == V2TIM_STATUS_LOGINED) {
+        [[V2TIMManager sharedInstance] getConversationList:0 count:50 succ:^(NSArray<V2TIMConversation *> *list, uint64_t nextSeq, BOOL isFinished) {
+            succ(list,nextSeq,isFinished);
+        } fail:^(int code, NSString *desc) {
+            fail(code, desc);
+        }];
     }
 }
 

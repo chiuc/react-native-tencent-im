@@ -35,9 +35,14 @@
 RCT_EXPORT_MODULE(TXIMMessageModule);
 
 RCT_REMAP_METHOD(getConversationList,
-                resolver:(RCTPromiseResolveBlock)resolve
-                rejecter:(RCTPromiseRejectBlock)reject) {
+    logoutWithResolver:(RCTPromiseResolveBlock)resolve
+    rejecter:(RCTPromiseRejectBlock)reject) {
     TXIMManager *manager = [TXIMManager getInstance];
+    [manager getConversationList:^(NSArray<V2TIMConversation *> *list, uint64_t nextSeq, BOOL isFinished) {
+        
+    } fail:^(int code, NSString *desc) {
+        
+    }];
 }
 
 RCT_REMAP_METHOD(getConversation,
