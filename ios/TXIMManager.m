@@ -10,6 +10,7 @@
 #import "TXIMMessageInfo.h"
 #import "TXIMMessageBuilder.h"
 #import <React/RCTLog.h>
+#import <ImSDK/ImSDK.h>
 
 @interface TXIMManager() <V2TIMSDKListener>
 
@@ -30,7 +31,13 @@
     
     NSDictionary *configDict;
     
+    id<V2TIMConversationListener> conversationListener;
     
+    id<V2TIMSimpleMsgListener> simpleMessageListener;
+    
+    id<V2TIMAdvancedMsgListener> advancedMsgListener;
+    
+    id<V2TIMSignalingListener> signalingListener;
 }
 
 #pragma mark - public method
@@ -58,7 +65,7 @@
     }
     
     V2TIMSDKConfig *config = [[V2TIMSDKConfig alloc] init];
-    config.logLevel = V2TIM_LOG_NONE;
+    config.logLevel = V2TIM_LOG_INFO;
     
     [[V2TIMManager sharedInstance] setConversationListener:nil];
     
@@ -66,27 +73,23 @@
 }
 
 - (void)setConversationListener:(id <V2TIMConversationListener>)listener {
-    if (isInit) {
-        [[V2TIMManager sharedInstance] setConversationListener:listener];
-    }
+    [[V2TIMManager sharedInstance] setConversationListener:listener];
+    conversationListener = listener;
 }
 
 - (void)setSimpleMessageListener:(id <V2TIMSimpleMsgListener>)listener {
-    if (isInit) {
-        [[V2TIMManager sharedInstance] addSimpleMsgListener:listener];
-    }
+    [[V2TIMManager sharedInstance] addSimpleMsgListener:listener];
+    simpleMessageListener = listener;
 }
 
 - (void)setAdvancedMsgListener:(id<V2TIMAdvancedMsgListener>)listener {
-    if (isInit) {
-        [[V2TIMManager sharedInstance] addAdvancedMsgListener:listener];
-    }
+    [[V2TIMManager sharedInstance] addAdvancedMsgListener:listener];
+    advancedMsgListener = listener;
 }
 
 - (void)setSignalingListener:(id<V2TIMSignalingListener>)listener{
-    if (isInit) {
-        [[V2TIMManager sharedInstance] addSignalingListener:listener];
-    }
+    [[V2TIMManager sharedInstance] addSignalingListener:listener];
+    signalingListener = listener;
 }
 
 - (void)loginWithIdentify:(NSString *)identify
@@ -221,10 +224,11 @@
 - (void)onConnecting {
     RCTLog(@"[TXIMManager] onConnecting");
 }
+
 - (void)onConnectSuccess {
-    isInit = YES;
     RCTLog(@"[TXIMManager] onConnectSuccess");
 }
+
 - (void)onConnectFailed:(int)code err:(NSString*)err {
     RCTLog(@"[TXIMManager] onConnectFailed");
 }

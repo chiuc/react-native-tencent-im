@@ -26,12 +26,12 @@
 
 - (void)configListener {
     TXIMManager *manager = [TXIMManager getInstance];
-    
+
     [manager setConversationListener:[[TXIMConversationListener alloc] initWithModule:self eventName:EventNameConversationUpdate]];
     
-    [manager setSimpleMessageListener:[[TXIMSimpleMessageListener alloc] initWithModule:self eventName:EventNameANY]];
+    [manager setSimpleMessageListener:[[TXIMSimpleMessageListener alloc] initWithModule:self eventName:EventNameOnNewMessage]];
     
-//    [manager setAdvancedMsgListener:[[TXIMAdvancedMessageListener alloc] initWithModule:self eventName:EventNameANY]];
+    [manager setAdvancedMsgListener:[[TXIMAdvancedMessageListener alloc] initWithModule:self eventName:EventNameANY]];
 }
 
 - (void)startObserving {
@@ -81,11 +81,11 @@ RCT_REMAP_METHOD(login,
                  andUserSig:(NSString *)userSig
                  resolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject) {
+    RCTLog(@"[TXIMInitializeModule] login");
     TXIMManager *manager = [TXIMManager getInstance];
     __weak typeof(self) weakSelf = self;
     [manager loginWithIdentify:account userSig:userSig succ:^{
-        [weakSelf sendEvent:EventNameLoginStatus body:@{ @"code": @(0)}];
-        [self sendEventWithName:EventNameLoginStatus body:@{@"name": @"a"}];
+        [weakSelf sendEvent:EventNameLoginStatus body:@{ @"code": @(0), @"username": account}];
         resolve(@{
           @"code": @(0),
           @"msg": @"Login Success",

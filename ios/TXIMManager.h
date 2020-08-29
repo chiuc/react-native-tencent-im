@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <ImSDK/ImSDK.h>
+#import <React/RCTLog.h>
 
 @class TXIMMessageInfo;
 
