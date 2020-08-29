@@ -9,6 +9,7 @@
 #import "TXIMManager.h"
 #import "TXIMMessageInfo.h"
 #import "TXIMMessageBuilder.h"
+#import <React/RCTLog.h>
 
 @interface TXIMManager() <V2TIMSDKListener>
 

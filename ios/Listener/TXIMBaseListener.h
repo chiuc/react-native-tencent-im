@@ -8,6 +8,7 @@
 
 #import <ImSDK/ImSDK.h>
 #import "RCTEventEmitter+TXIMBaseModule.h"
+#import <React/RCTLog.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
