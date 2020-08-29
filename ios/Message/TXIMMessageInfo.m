@@ -20,19 +20,44 @@
 
 - (NSDictionary *)toDict {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithDictionary:@{
-        @"peer": _receiver,
-        @"sender": _sender,
-        @"msgId": _msgId,
-        @"msgType": @(_msgType),
-        @"msgTime": @(_msgTime),
-        @"self": @(_isSelf),
-        @"read": @(_isRead),
-        @"status": @(_status),
         @"imgWidth": @"",
         @"imgHeight": @"",
         @"lat": @"",
         @"lng": @"",
     }];
+    
+    if (_receiver) {
+        dict[@"peer"] = _receiver;
+    }
+    
+    if (_sender) {
+        dict[@"sender"] = _sender;
+    }
+    
+    if (_msgId) {
+        dict[@"msgId"] = _msgId;
+    }
+    
+    if (_msgType) {
+        dict[@"msgType"] = @(_msgType);
+    }
+    
+    if (_msgTime) {
+        dict[@"msgTime"] = @(_msgTime);
+    }
+    
+    if (_isSelf) {
+        dict[@"self"] = @(_isSelf);
+    }
+    
+    if (_isRead) {
+        dict[@"read"] = @(_isRead);
+    }
+    
+    if (_status) {
+        dict[@"status"] = @(_status);
+    }
+
     
     if (_senderNickName) {
         dict[@"nickName"] = _senderNickName;

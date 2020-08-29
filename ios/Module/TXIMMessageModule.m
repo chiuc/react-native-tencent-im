@@ -15,7 +15,7 @@
 #pragma mark - RCTEventEmitter
 
 - (NSArray<NSString *> *)supportedEvents {
-    return @[EventNameOnNewMessage];
+    return @[EventNameOnNewMessage, EventNameConversationUpdate];
 }
 
 - (void)startObserving {
@@ -33,6 +33,21 @@
     return NO;
 }
 
+- (NSDictionary *)constantsToExport {
+        
+    NSDictionary *eventNameDict = @{
+        @"loginStatus": EventNameLoginStatus,
+        @"initializeStatus": EventNameInitializeStatus,
+        @"userStatus": EventNameUserStatusChange,
+        @"onNewMessage": EventNameOnNewMessage,
+        @"onConversationRefresh": EventNameConversationUpdate
+    };
+    
+    return @{
+        @"EventName": eventNameDict
+    };
+}
+
 RCT_EXPORT_MODULE(TXIMMessageModule);
 
 RCT_REMAP_METHOD(getConversationList,
@@ -42,7 +57,7 @@ RCT_REMAP_METHOD(getConversationList,
     [manager getConversationList:^(NSArray<V2TIMConversation *> *list, uint64_t nextSeq, BOOL isFinished) {
         resolve(@{
           @"code": @(0),
-          @"msg": @"getConversationList Success",
+          @"msg": @"getConversationList Success"
         });
     } fail:^(int code, NSString *desc) {
         reject([NSString stringWithFormat:@"%@", @(code)], desc, nil);

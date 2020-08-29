@@ -31,6 +31,8 @@
     
     NSDictionary *configDict;
     
+    NSMutableArray<V2TIMConversation *> *convLists;
+    
     id<V2TIMConversationListener> conversationListener;
     
     id<V2TIMSimpleMsgListener> simpleMessageListener;
@@ -49,6 +51,15 @@
         instance = [self new];
     });
     return instance;
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        convLists = [[NSMutableArray alloc] init];
+    }
+    return self;
 }
 
 - (void)configDeviceToken:(NSData *)token {
@@ -201,6 +212,7 @@
 - (void)getConversationList:(V2TIMConversationResultSucc)succ fail:(V2TIMFail)fail {
     if ([[V2TIMManager sharedInstance] getLoginStatus] == V2TIM_STATUS_LOGINED) {
         [[V2TIMManager sharedInstance] getConversationList:0 count:50 succ:^(NSArray<V2TIMConversation *> *list, uint64_t nextSeq, BOOL isFinished) {
+            [self updateConversationWithList:list];
             succ(list,nextSeq,isFinished);
         } fail:^(int code, NSString *desc) {
             fail(code, desc);
@@ -231,6 +243,49 @@
 
 - (void)onConnectFailed:(int)code err:(NSString*)err {
     RCTLog(@"[TXIMManager] onConnectFailed");
+}
+
+- (void)updateConversationWithList:(NSArray *)convList {
+    for (int i = 0 ; i < convList.count ; ++ i) {
+        V2TIMConversation *conv = convList[i];
+        BOOL isExit = NO;
+        for (int j = 0; j < convLists.count; ++ j) {
+            V2TIMConversation *_Conv = convLists[j];
+            if ([[self getConversationIDFromConversation:_Conv] isEqualToString:[self getConversationIDFromConversation:conv]]) {
+                [convLists replaceObjectAtIndex:j withObject:conv];
+                isExit = YES;
+                break;
+            }
+        }
+        if (!isExit) {
+            [convLists addObject:conv];
+        }
+    }
+    
+    [convLists sortUsingComparator:^NSComparisonResult(V2TIMConversation *obj1, V2TIMConversation *obj2) {
+        return [obj2.lastMessage.timestamp compare:obj1.lastMessage.timestamp];
+    }];
+}
+
+- (void)updateConversationWithMessage:(V2TIMMessage *)message {
+    for (int j = 0; j < convLists.count; ++ j) {
+        V2TIMConversation *_Conv = convLists[j];
+        if ([[self getConversationIDFromConversation:_Conv] isEqualToString:[self getConversationIDFromMessage:message]]) {
+            break;
+        }
+    }
+}
+
+- (NSString*) getConversationIDFromMessage:(V2TIMMessage *)message {
+    return message.groupID ? message.groupID : message.userID;
+}
+
+- (NSString*) getConversationIDFromConversation:(V2TIMConversation *)conv {
+    return conv.groupID ? conv.groupID : conv.userID;
+}
+
+- (NSMutableArray*) getConversation {
+    return convLists;
 }
 
 @end

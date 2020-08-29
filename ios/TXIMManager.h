@@ -55,13 +55,19 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)destroyConversationWithSucc:(V2TIMSucc)succ
                                fail:(V2TIMFail)fail;
 
+- (void)getConversationList:(V2TIMConversationResultSucc)succ fail:(V2TIMFail)fail;
+
 - (int)getUnReadCount;
 
 - (void)configDeviceToken:(NSData *)token;
 
 - (void)configBusinessID:(NSString *)token;
 
-- (void)getConversationList:(V2TIMConversationResultSucc)succ fail:(V2TIMFail)fail;
+- (void)updateConversationWithList:(NSArray *)convList;
+
+- (void)updateConversationWithMessage:(V2TIMMessage *)message;
+
+- (NSMutableArray*) getConversation;
 
 @end
 

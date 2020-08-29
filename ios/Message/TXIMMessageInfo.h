@@ -11,7 +11,7 @@ typedef NS_ENUM(int, TXIMMessageType) {
     TXIMMessageTypeunknow       = 0,///  未知消息
     TXIMMessageTypeText         = 1,/// 文本类型消息
     TXIMMessageTypeCustom       = 2,/// 自定义消息
-    TXIMMessageTypeImage        = 3,/// 语音类型消息
+    TXIMMessageTypeImage        = 3,/// 图片消息
     TXIMMessageTypeAudio        = 4,/// 语音类型消息
     TXIMMessageTypeVideo        = 5,/// 视频类型消息
     TXIMMessageTypeFile         = 6,/// 文件类型消息

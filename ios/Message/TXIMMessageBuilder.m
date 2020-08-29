@@ -11,14 +11,7 @@
 
 @implementation TXIMMessageBuilder
 
-+ (TXIMMessageInfo *)buildMessage:(TXIMMessageType)type content:(NSString *)content option:(NSDictionary *)option {
-    switch (type) {
-        case TXIMMessageTypeText:
-            return [self buildTextMessage: content];
-        default:
-            return nil;
-    }
-}
+
 
 + (TXIMMessageInfo *)buildTextMessage:(NSString *)content {
     TXIMMessageInfo *info = [[TXIMMessageInfo alloc] initWithType:TXIMMessageTypeText];
@@ -26,7 +19,41 @@
     info.msg = msg;
     info.msgTime = CURRENT_TIMESTAMP;
     info.extra = content;
+    info.isSelf = YES;
+    info.sender = [[V2TIMManager sharedInstance] getLoginUser];
     return info;
+}
+
++ (TXIMMessageInfo *)buildCustomFaceMessage:(NSString *)groupId faceName:(NSString *)faceName {
+    TXIMMessageInfo *info = [[TXIMMessageInfo alloc] initWithType:TXIMMessageTypeFace];
+    V2TIMMessage *msg = [[V2TIMManager sharedInstance] createFaceMessage:[groupId intValue] data:[faceName dataUsingEncoding:NSUTF8StringEncoding]];
+    info.msg = msg;
+    info.msgTime = CURRENT_TIMESTAMP;
+    info.extra = @"[自定义表情]";
+    info.isSelf = YES;
+    info.sender = [[V2TIMManager sharedInstance] getLoginUser];
+    return info;
+}
+
++ (TXIMMessageInfo *)buildImageMessage:(NSString *)uri compressed:(Boolean *)compressed appPohto:(Boolean *)appPohto {
+    TXIMMessageInfo *info = [[TXIMMessageInfo alloc] initWithType:TXIMMessageTypeImage];
+    V2TIMMessage *msg = [[V2TIMManager sharedInstance] createImageMessage:uri];
+    info.msg = msg;
+    info.msgTime = CURRENT_TIMESTAMP;
+    info.extra = @"[图片]";
+    info.isSelf = YES;
+    info.sender = [[V2TIMManager sharedInstance] getLoginUser];
+    return info;
+}
+
+
++ (TXIMMessageInfo *)buildMessage:(TXIMMessageType)type content:(NSString *)content option:(NSDictionary *)option {
+    switch (type) {
+        case TXIMMessageTypeText:
+            return [self buildTextMessage: content];
+        default:
+            return nil;
+    }
 }
 
 + (TXIMMessageInfo *)buildMessageWithTIMMessage:(V2TIMMessage *)msg {
@@ -39,6 +66,11 @@
     [info setMsgId:[msg msgID]];
     [info setMsgTime:[[msg timestamp] timeIntervalSince1970] * 1000];
     [info setIsSelf:[msg isSelf]];
+
+    if (info.msgType == TXIMMessageTypeText) {
+        info.extra = msg.textElem.text;
+    }
+    
     if (info.isSelf) {
         info.sender = [msg sender];
         info.receiver = [msg userID];
@@ -77,4 +109,41 @@
             return TXIMMessageTypeunknow;
     }
 }
+
++ (NSArray<TXIMMessageInfo *>*) normalizeConversationList:(NSArray<V2TIMConversation*> *)timMessages {
+    NSMutableArray *messageInfos = [[NSMutableArray alloc] init];
+    for (int i = 0 ; i < timMessages.count ; ++ i) {
+        NSMutableDictionary *objmap = [[NSMutableDictionary alloc] init];
+        V2TIMConversation *conv = timMessages[i];
+        int unreadNum = [conv unreadCount];
+        V2TIMConversationType type = [conv type];
+        V2TIMMessage *msg = [conv lastMessage];
+        TXIMMessageInfo *info = [self buildMessageWithTIMMessage:msg];
+        NSString *peer = [conv userID] != nil ? [conv userID] : [conv groupID];
+        [objmap setValue:[NSString stringWithFormat:@"%d", unreadNum] forKey:@"unread"];
+        if (!!msg) {
+            [objmap setValue:[info toDict] forKey:@"message"];
+        }
+        [objmap setValue:peer forKey:@"peer"];
+        if (type == V2TIM_C2C) {
+            [objmap setValue:@"1" forKey:@"type"];
+        } else {
+            [objmap setValue:@"2" forKey:@"type"];
+        }
+        [objmap setValue:[conv showName] forKey:@"name"];
+        [messageInfos addObject:objmap];
+    }
+    return messageInfos;
+}
+
++ (NSArray<TXIMMessageInfo *>*) TIMMessages2MessageInfos:(NSArray<V2TIMConversation*> *) timMessages isGroup:(Boolean *)isGroup {
+    NSMutableArray *messageInfos = [[NSMutableArray alloc] init];
+    
+    return messageInfos;
+}
+
+//+ (TXIMMessageInfo *) TIMMessage2MessageInfo:(V2TIMMessage *)msg isGroup:(Boolean *)isGroup {
+//    
+//}
+
 @end

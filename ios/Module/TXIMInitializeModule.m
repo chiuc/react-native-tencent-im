@@ -21,7 +21,7 @@
 #pragma mark - RCTEventEmitter
 
 - (NSArray<NSString *> *)supportedEvents {
-    return @[EventNameInitializeStatus, EventNameUserStatusChange, EventNameOnNewMessage, EventNameLoginStatus];
+    return @[EventNameInitializeStatus, EventNameUserStatusChange, EventNameOnNewMessage, EventNameLoginStatus, EventNameConversationUpdate];
 }
 
 - (void)configListener {
@@ -29,9 +29,9 @@
 
     [manager setConversationListener:[[TXIMConversationListener alloc] initWithModule:self eventName:EventNameConversationUpdate]];
     
-    [manager setSimpleMessageListener:[[TXIMSimpleMessageListener alloc] initWithModule:self eventName:EventNameOnNewMessage]];
+//    [manager setSimpleMessageListener:[[TXIMSimpleMessageListener alloc] initWithModule:self eventName:EventNameOnNewMessage]];
     
-    [manager setAdvancedMsgListener:[[TXIMAdvancedMessageListener alloc] initWithModule:self eventName:EventNameANY]];
+    [manager setAdvancedMsgListener:[[TXIMAdvancedMessageListener alloc] initWithModule:self eventName:EventNameOnNewMessage]];
 }
 
 - (void)startObserving {
@@ -55,6 +55,7 @@
         @"initializeStatus": EventNameInitializeStatus,
         @"userStatus": EventNameUserStatusChange,
         @"onNewMessage": EventNameOnNewMessage,
+        @"onConversationRefresh": EventNameConversationUpdate
     };
 
     NSDictionary *messageTypeDict = @{

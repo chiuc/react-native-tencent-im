@@ -37,22 +37,25 @@
  */
 - (void)onNewConversation:(NSArray<V2TIMConversation*> *) conversationList {
     RCTLog(@"[TXIMConversationListener] onNewConversation");
-    [self updateConversation:conversationList];
+    [[TXIMManager getInstance] updateConversationWithList:conversationList];
+    [self.module sendEvent:self.eventName body:@{
+        @"code": @0,
+        @"msg": @"",
+        @"data": [TXIMMessageBuilder normalizeConversationList:conversationList]
+    }];
 }
 
 /**
  * 某些会话的关键信息发生变化（未读计数发生变化、最后一条消息被更新等等），可以根据会话的 lastMessage -> timestamp 重新对会话列表做排序。
  */
-
-
 - (void)onConversationChanged:(NSArray<V2TIMConversation*> *) conversationList {
     RCTLog(@"[TXIMConversationListener] onConversationChanged");
-    [self updateConversation:conversationList];
-}
-
-
-- (void)updateConversation:(NSArray *)convList {
-    
+    [[TXIMManager getInstance] updateConversationWithList:conversationList];
+    [self.module sendEvent:self.eventName body:@{
+        @"code": @0,
+        @"msg": @"",
+        @"data": [TXIMMessageBuilder normalizeConversationList:conversationList]
+    }];
 }
 
 @end
