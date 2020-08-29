@@ -7,6 +7,8 @@
 //
 
 #import "TXIMManager.h"
+#import "TXIMMessageInfo.h"
+#import "TXIMMessageBuilder.h"
 
 @interface TXIMManager() <V2TIMSDKListener>
 
@@ -19,11 +21,15 @@
     
     NSString *businessID;
     
+    V2TIMConversation *conversation;
+    
     NSString *currentReceiver;
     
     NSData *deviceToken;
     
     NSDictionary *configDict;
+    
+    
 }
 
 #pragma mark - public method
@@ -49,10 +55,12 @@
     if (isInit) {
       return YES;
     }
+    
     V2TIMSDKConfig *config = [[V2TIMSDKConfig alloc] init];
     config.logLevel = V2TIM_LOG_NONE;
     
     [[V2TIMManager sharedInstance] setConversationListener:nil];
+    
     return [[V2TIMManager sharedInstance] initSDK:[appId intValue] config:config listener:self];
 }
 
@@ -116,6 +124,76 @@
     }
 }
 
+- (void)getConversationWithType:(NSInteger)type
+                       receiver:(NSString *)receiver
+                           succ:(V2TIMSucc)succ
+                           fail:(V2TIMFail)fail {
+    
+}
+
+- (void)setMessageRead:(V2TIMMessage *)message
+                  succ:(V2TIMSucc)succ
+                  fail:(V2TIMFail)fail {
+    if ([[message userID] isEqualToString:[conversation userID]]) {
+        [[V2TIMManager sharedInstance] markC2CMessageAsRead:[conversation userID] succ:^{
+            succ();
+        } fail:^(int code, NSString *desc) {
+            fail(code, desc);
+        }];
+    }
+}
+
+- (void)sendMessage:(int)type
+            content:(NSString *)content
+             option:(NSDictionary *)option
+               succ:(TXIMSendMsgSucc)succ
+               fail:(TIMFail)fail {
+    if ([[V2TIMManager sharedInstance] getLoginStatus] == V2TIM_STATUS_LOGINED) {
+        fail(-1, @"Please login");
+        return;
+    }
+    if (!conversation) {
+        fail(-1, @"not conversation");
+        return;
+    }
+    
+    TXIMMessageInfo *info = [TXIMMessageBuilder buildMessage:type content:content option:option];
+    info.sender = [[V2TIMManager sharedInstance] getLoginUser];
+    info.receiver = currentReceiver;
+    info.isSelf = YES;
+
+   [[V2TIMManager sharedInstance] sendMessage:info.msg
+                                      receiver:currentReceiver
+                                       groupID:currentReceiver
+                                      priority:V2TIM_PRIORITY_DEFAULT
+                                onlineUserOnly:false
+                               offlinePushInfo:nil
+                                      progress:^(uint32_t progress) {
+        
+    } succ:^{
+        succ(info);
+    } fail:^(int code, NSString *desc) {
+        fail(code, desc);
+    }];
+}
+
+- (void)destroyConversationWithSucc:(V2TIMSucc)succ
+                               fail:(V2TIMFail)fail {
+    if (conversation) {
+        [[V2TIMManager sharedInstance] deleteConversation:[conversation conversationID] succ:^{
+            self->conversation = nil;
+            self->currentReceiver = nil;
+            succ();
+        } fail:^(int code, NSString *desc) {
+            fail(code, desc);
+        }];
+    }
+}
+
+- (int)getUnReadCount {
+    return 0;
+}
+
 - (void)getConversationList:(V2TIMConversationResultSucc)succ fail:(V2TIMFail)fail {
     if ([[V2TIMManager sharedInstance] getLoginStatus] == V2TIM_STATUS_LOGINED) {
         [[V2TIMManager sharedInstance] getConversationList:0 count:50 succ:^(NSArray<V2TIMConversation *> *list, uint64_t nextSeq, BOOL isFinished) {
@@ -133,20 +211,21 @@
     confg.businessID = [businessID intValue];
     confg.token = deviceToken;
     [[V2TIMManager sharedInstance] setAPNS:confg succ:^{
-        NSLog(@"[TXIMManager] configAppAPNSDeviceToken #success");
+        RCTLog(@"[TXIMManager] configAppAPNSDeviceToken #success");
     } fail:^(int code, NSString *desc) {
-        NSLog(@"[TXIMManager] configAppAPNSDeviceToken #fail reason:%@", desc);
+        RCTLog(@"[TXIMManager] configAppAPNSDeviceToken #fail reason:%@", desc);
     }];
 }
 
 - (void)onConnecting {
-    NSLog(@"TIM: onConnecting");
+    RCTLog(@"[TXIMManager] onConnecting");
 }
 - (void)onConnectSuccess {
-    NSLog(@"TIM: onConnectSuccess");
+    isInit = YES;
+    RCTLog(@"[TXIMManager] onConnectSuccess");
 }
 - (void)onConnectFailed:(int)code err:(NSString*)err {
-    NSLog(@"TIM: onConnectFailed");
+    RCTLog(@"[TXIMManager] onConnectFailed");
 }
 
 @end

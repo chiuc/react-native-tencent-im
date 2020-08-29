@@ -9,6 +9,10 @@
 #import <Foundation/Foundation.h>
 #import <ImSDK/ImSDK.h>
 
+@class TXIMMessageInfo;
+
+typedef void (^TXIMSendMsgSucc)(TXIMMessageInfo *_Nonnull msg);
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TXIMManager : NSObject <V2TIMSDKListener>
@@ -26,17 +30,37 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setSignalingListener:(id<V2TIMSignalingListener>)listener;
 
 - (void)loginWithIdentify:(NSString *)identify
-                    userSig:(NSString *)userSig
-                       succ:(V2TIMSucc)succ
-                       fail:(V2TIMFail)fail;
+                  userSig:(NSString *)userSig
+                     succ:(V2TIMSucc)succ
+                     fail:(V2TIMFail)fail;
 
 - (void)logoutWithSucc:(V2TIMSucc)succ fail:(V2TIMFail)fail;
 
-- (void)getConversationList:(V2TIMConversationResultSucc)succ fail:(V2TIMFail)fail;
+- (void)getConversationWithType:(NSInteger)type
+                       receiver:(NSString *)receiver
+                           succ:(V2TIMSucc)succ
+                           fail:(V2TIMFail)fail;
+
+- (void)setMessageRead:(V2TIMMessage *)message
+                  succ:(V2TIMSucc)succ
+                  fail:(V2TIMFail)fail;
+
+- (void)sendMessage:(int)type
+            content:(NSString *)content
+             option:(NSDictionary *)option
+               succ:(TXIMSendMsgSucc)succ
+               fail:(TIMFail)fail;
+
+- (void)destroyConversationWithSucc:(V2TIMSucc)succ
+                               fail:(V2TIMFail)fail;
+
+- (int)getUnReadCount;
 
 - (void)configDeviceToken:(NSData *)token;
 
 - (void)configBusinessID:(NSString *)token;
+
+- (void)getConversationList:(V2TIMConversationResultSucc)succ fail:(V2TIMFail)fail;
 
 @end
 

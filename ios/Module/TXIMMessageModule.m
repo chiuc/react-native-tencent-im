@@ -8,6 +8,7 @@
 #import "TXIMMessageModule.h"
 #import "TXIMManager.h"
 #import "TXIMEventNameConstant.h"
+#import "TXIMMessageBuilder.h"
 
 @implementation TXIMMessageModule
 
@@ -39,9 +40,12 @@ RCT_REMAP_METHOD(getConversationList,
     rejecter:(RCTPromiseRejectBlock)reject) {
     TXIMManager *manager = [TXIMManager getInstance];
     [manager getConversationList:^(NSArray<V2TIMConversation *> *list, uint64_t nextSeq, BOOL isFinished) {
-        
+        resolve(@{
+          @"code": @(0),
+          @"msg": @"getConversationList Success",
+        });
     } fail:^(int code, NSString *desc) {
-        
+        reject([NSString stringWithFormat:@"%@", @(code)], desc, nil);
     }];
 }
 
@@ -51,6 +55,7 @@ RCT_REMAP_METHOD(getConversation,
                resolver:(RCTPromiseResolveBlock)resolve
                rejecter:(RCTPromiseRejectBlock)reject) {
     TXIMManager *manager = [TXIMManager getInstance];
+    
 }
 
 RCT_REMAP_METHOD(sendMessage,

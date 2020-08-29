@@ -14,12 +14,14 @@
 #import "TXIMSimpleMessageListener.h"
 #import "TXIMAdvancedMessageListener.h"
 
+#import "TXIMMessageInfo.h"
+
 @implementation TXIMInitializeModule
 
 #pragma mark - RCTEventEmitter
 
 - (NSArray<NSString *> *)supportedEvents {
-    return @[EventNameInitializeStatus, EventNameUserStatusChange, EventNameOnNewMessage];
+    return @[EventNameInitializeStatus, EventNameUserStatusChange, EventNameOnNewMessage, EventNameLoginStatus];
 }
 
 - (void)configListener {
@@ -29,7 +31,7 @@
     
     [manager setSimpleMessageListener:[[TXIMSimpleMessageListener alloc] initWithModule:self eventName:EventNameANY]];
     
-    [manager setAdvancedMsgListener:[[TXIMAdvancedMessageListener alloc] initWithModule:self eventName:EventNameANY]];
+//    [manager setAdvancedMsgListener:[[TXIMAdvancedMessageListener alloc] initWithModule:self eventName:EventNameANY]];
 }
 
 - (void)startObserving {
@@ -56,14 +58,14 @@
     };
 
     NSDictionary *messageTypeDict = @{
-//        @"Text": @(IMMessageTypeText),
-//        @"Image": @(IMMessageTypeImage),
-//        @"Sound": @(IMMessageTypeAudio),
-//        @"Video": @(IMMessageTypeVideo),
-//        @"File": @(IMMessageTypeFile),
-//        @"Location": @(IMMessageTypeLocation),
-//        @"Face": @(IMMessageTypeCustomFace),
-//        @"Custom": @(IMMessageTypeCustom),
+        @"Text": @(TXIMMessageTypeText),
+        @"Image": @(TXIMMessageTypeImage),
+        @"Sound": @(TXIMMessageTypeAudio),
+        @"Video": @(TXIMMessageTypeVideo),
+        @"File": @(TXIMMessageTypeFile),
+        @"Location": @(TXIMMessageTypeLocation),
+        @"Face": @(TXIMMessageTypeFace),
+        @"Custom": @(TXIMMessageTypeCustom),
     };
 
     return @{
@@ -80,7 +82,10 @@ RCT_REMAP_METHOD(login,
                  resolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject) {
     TXIMManager *manager = [TXIMManager getInstance];
+    __weak typeof(self) weakSelf = self;
     [manager loginWithIdentify:account userSig:userSig succ:^{
+        [weakSelf sendEvent:EventNameLoginStatus body:@{ @"code": @(0)}];
+        [self sendEventWithName:EventNameLoginStatus body:@{@"name": @"a"}];
         resolve(@{
           @"code": @(0),
           @"msg": @"Login Success",
