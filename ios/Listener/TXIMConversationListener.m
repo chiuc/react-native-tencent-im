@@ -41,7 +41,7 @@
     [self.module sendEvent:self.eventName body:@{
         @"code": @0,
         @"msg": @"",
-        @"data": [TXIMMessageBuilder normalizeConversationList:conversationList]
+        @"data": [TXIMMessageBuilder normalizeConversationList:[[TXIMManager getInstance] getConversation]]
     }];
 }
 
@@ -54,7 +54,7 @@
     [self.module sendEvent:self.eventName body:@{
         @"code": @0,
         @"msg": @"",
-        @"data": [TXIMMessageBuilder normalizeConversationList:conversationList]
+        @"data": [TXIMMessageBuilder normalizeConversationList:[[TXIMManager getInstance] getConversation]]
     }];
 }
 
