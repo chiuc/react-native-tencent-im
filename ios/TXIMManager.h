@@ -37,17 +37,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)logoutWithSucc:(V2TIMSucc)succ fail:(V2TIMFail)fail;
 
-- (void)getConversationWithType:(NSInteger)type
-                       receiver:(NSString *)receiver
-                           succ:(V2TIMSucc)succ
-                           fail:(V2TIMFail)fail;
-
 - (void)setMessageRead:(V2TIMMessage *)message
                   succ:(V2TIMSucc)succ
                   fail:(V2TIMFail)fail;
 
 - (void)sendMessage:(int)type
             content:(NSString *)content
+            isGroup:(BOOL)isGroup
              option:(NSDictionary *)option
                succ:(TXIMSendMsgSucc)succ
                fail:(TIMFail)fail;
@@ -56,6 +52,11 @@ NS_ASSUME_NONNULL_BEGIN
                                fail:(V2TIMFail)fail;
 
 - (void)getConversationList:(V2TIMConversationResultSucc)succ fail:(V2TIMFail)fail;
+
+- (void)getConversationWithType:(NSInteger)type
+                       receiver:(NSString *)receiver
+                           succ:(V2TIMMessageListSucc)succ
+                           fail:(V2TIMFail)fail;
 
 - (int)getUnReadCount;
 

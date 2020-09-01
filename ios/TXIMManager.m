@@ -76,7 +76,7 @@
     }
     
     V2TIMSDKConfig *config = [[V2TIMSDKConfig alloc] init];
-    config.logLevel = V2TIM_LOG_INFO;
+    config.logLevel = V2TIM_LOG_NONE;
     
     [[V2TIMManager sharedInstance] setConversationListener:nil];
     
@@ -141,9 +141,26 @@
 
 - (void)getConversationWithType:(NSInteger)type
                        receiver:(NSString *)receiver
-                           succ:(V2TIMSucc)succ
+                           succ:(V2TIMMessageListSucc)succ
                            fail:(V2TIMFail)fail {
-    
+    if ([[V2TIMManager sharedInstance] getLoginStatus] == V2TIM_STATUS_LOGINED) {
+        currentReceiver = receiver;
+        if (type == 1) {
+            [[V2TIMManager sharedInstance] getC2CHistoryMessageList:receiver count:100 lastMsg:nil succ:^(NSArray<V2TIMMessage *> *msgs) {
+                succ(msgs);
+            } fail:^(int code, NSString *desc) {
+                fail(code, desc);
+            }];
+        } else {
+            [[V2TIMManager sharedInstance] getGroupHistoryMessageList:receiver count:100 lastMsg:nil succ:^(NSArray<V2TIMMessage *> *msgs) {
+                succ(msgs);
+            } fail:^(int code, NSString *desc) {
+                fail(code, desc);
+            }];
+        }
+    } else {
+        fail(-1, @"Please login");
+    }
 }
 
 - (void)setMessageRead:(V2TIMMessage *)message
@@ -160,15 +177,12 @@
 
 - (void)sendMessage:(int)type
             content:(NSString *)content
+            isGroup:(BOOL)isGroup
              option:(NSDictionary *)option
                succ:(TXIMSendMsgSucc)succ
                fail:(TIMFail)fail {
-    if ([[V2TIMManager sharedInstance] getLoginStatus] == V2TIM_STATUS_LOGINED) {
+    if ([[V2TIMManager sharedInstance] getLoginStatus] != V2TIM_STATUS_LOGINED) {
         fail(-1, @"Please login");
-        return;
-    }
-    if (!conversation) {
-        fail(-1, @"not conversation");
         return;
     }
     
@@ -178,8 +192,8 @@
     info.isSelf = YES;
 
    [[V2TIMManager sharedInstance] sendMessage:info.msg
-                                      receiver:currentReceiver
-                                       groupID:currentReceiver
+                                     receiver:!isGroup?currentReceiver: nil
+                                      groupID:isGroup?currentReceiver: nil
                                       priority:V2TIM_PRIORITY_DEFAULT
                                 onlineUserOnly:false
                                offlinePushInfo:nil

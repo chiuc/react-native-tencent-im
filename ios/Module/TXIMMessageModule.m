@@ -36,9 +36,6 @@
 - (NSDictionary *)constantsToExport {
         
     NSDictionary *eventNameDict = @{
-        @"loginStatus": EventNameLoginStatus,
-        @"initializeStatus": EventNameInitializeStatus,
-        @"userStatus": EventNameUserStatusChange,
         @"onNewMessage": EventNameOnNewMessage,
         @"onConversationRefresh": EventNameConversationUpdate
     };
@@ -69,17 +66,42 @@ RCT_REMAP_METHOD(getConversation,
                receiver:(NSString *)receiver
                resolver:(RCTPromiseResolveBlock)resolve
                rejecter:(RCTPromiseRejectBlock)reject) {
-    TXIMManager *manager = [TXIMManager getInstance];
     
+    TXIMManager *manager = [TXIMManager getInstance];
+    [manager getConversationWithType:type receiver:receiver succ:^(NSArray<V2TIMMessage *> *msgs) {
+        NSArray<TXIMMessageInfo *> *infos = [TXIMMessageBuilder normalizeMessageHistory:msgs];
+        NSMutableArray *data = [[NSMutableArray alloc] init];
+        for (int i = 0; i < infos.count; i++) {
+            TXIMMessageInfo *info = infos[i];
+            [data addObject:[info toDict]];
+        }
+        resolve(@{
+          @"code": @(0),
+          @"msg": @"getConversation Success",
+          @"data": data
+        });
+    } fail:^(int code, NSString *desc) {
+        reject([NSString stringWithFormat:@"%@", @(code)], desc, nil);
+    }];
 }
 
 RCT_REMAP_METHOD(sendMessage,
-                 sendMessage:(int)type
-                 content:(NSString *)content
+                  sendMessage:(int)type
+                  content:(NSString *)content
+                  isGroup:(BOOL)isGroup
                  option:(NSDictionary *)option
                  resolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject) {
     TXIMManager *manager = [TXIMManager getInstance];
+    [manager sendMessage:type content:content isGroup:isGroup option:option succ:^(TXIMMessageInfo * _Nonnull msg) {
+        resolve(@{
+          @"code": @(0),
+          @"msg": @"getConversation Success",
+          @"data": [msg toDict]
+        });
+    } fail:^(int code, NSString *desc) {
+        reject([NSString stringWithFormat:@"%@", @(code)], desc, nil);
+    }];
 }
 
 RCT_EXPORT_METHOD(destroyConversation) {

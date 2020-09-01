@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, assign) TXIMMessageType msgType;
 
-@property(nonatomic, assign) double msgTime;
+@property(nonatomic, assign) NSInteger msgTime;
 
 @property(nonatomic, assign) BOOL isRead;
 

@@ -64,7 +64,8 @@
     [info setMsgType:[self getMessagetype:msg.elemType]];
     [info setMsg:msg];
     [info setMsgId:[msg msgID]];
-    [info setMsgTime:[[msg timestamp] timeIntervalSince1970] * 1000];
+    NSInteger time = [[msg timestamp] timeIntervalSince1970];
+    [info setMsgTime:time];
     [info setIsSelf:[msg isSelf]];
 
     if (info.msgType == TXIMMessageTypeText) {
@@ -75,6 +76,7 @@
         info.sender = [msg sender];
         info.receiver = [msg userID];
         info.isRead = [msg isPeerRead];
+//        info.senderAvatar = [msg faceURL];
     } else {
         info.sender = [msg sender];
         info.senderAvatar = [msg faceURL];
@@ -131,6 +133,7 @@
             [objmap setValue:@"2" forKey:@"type"];
         }
         [objmap setValue:[conv showName] forKey:@"name"];
+        [objmap setValue:[conv faceUrl] forKey:@"faceUrl"];
         [messageInfos addObject:objmap];
     }
     return messageInfos;
@@ -141,6 +144,17 @@
     
     return messageInfos;
 }
+
++ (NSArray<TXIMMessageInfo *>*) normalizeMessageHistory:(NSArray<V2TIMMessage *>*)messages {
+    NSMutableArray *messageInfos = [[NSMutableArray alloc] init];
+    for (int i = 0; i < messages.count; i++) {
+        V2TIMMessage *msg = messages[i];
+        TXIMMessageInfo *info = [TXIMMessageBuilder buildMessageWithTIMMessage:msg];
+        [messageInfos addObject:info];
+    }
+    return messageInfos;
+}
+
 
 //+ (TXIMMessageInfo *) TIMMessage2MessageInfo:(V2TIMMessage *)msg isGroup:(Boolean *)isGroup {
 //    

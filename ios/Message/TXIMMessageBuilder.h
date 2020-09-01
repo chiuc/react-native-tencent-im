@@ -26,9 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSArray<TXIMMessageInfo *>*) TIMMessages2MessageInfos:(NSArray<V2TIMConversation*> *)timMessages isGroup:(Boolean *)isGroup;
 
-//+ (TXIMMessageInfo *) TIMMessage2MessageInfo:(V2TIMMessage *)msg isGroup:(Boolean *)isGroup;
-
-
++ (NSArray<TXIMMessageInfo *>*) normalizeMessageHistory:(NSArray<V2TIMMessage *>*)messages;
 @end
 
 NS_ASSUME_NONNULL_END
