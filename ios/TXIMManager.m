@@ -77,7 +77,7 @@
     }
     
     V2TIMSDKConfig *config = [[V2TIMSDKConfig alloc] init];
-    config.logLevel = V2TIM_LOG_DEBUG;
+    config.logLevel = V2TIM_LOG_NONE;
     
     [[V2TIMManager sharedInstance] setConversationListener:nil];
     
@@ -337,5 +337,4 @@
 
     return mutStr;
 }
-
 @end
