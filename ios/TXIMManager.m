@@ -64,6 +64,7 @@
 
 - (void)configDeviceToken:(NSData *)token {
     deviceToken = token;
+    [self configAppAPNSDeviceToken];
 }
 
 - (void)configBusinessID:(NSString *)token {
@@ -76,7 +77,7 @@
     }
     
     V2TIMSDKConfig *config = [[V2TIMSDKConfig alloc] init];
-    config.logLevel = V2TIM_LOG_NONE;
+    config.logLevel = V2TIM_LOG_DEBUG;
     
     [[V2TIMManager sharedInstance] setConversationListener:nil];
     
@@ -186,21 +187,27 @@
         return;
     }
     
-    TXIMMessageInfo *info = [TXIMMessageBuilder buildMessage:type content:content option:option];
-    info.sender = [[V2TIMManager sharedInstance] getLoginUser];
-    info.receiver = currentReceiver;
-    info.isSelf = YES;
-
-   [[V2TIMManager sharedInstance] sendMessage:info.msg
+    TXIMMessageInfo *msg = [TXIMMessageBuilder buildMessage:type content:content option:option];
+    msg.sender = [[V2TIMManager sharedInstance] getLoginUser];
+    msg.receiver = currentReceiver;
+    msg.isSelf = YES;
+    
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    [dict setValue:currentReceiver forKey:@"target"];
+    
+    V2TIMOfflinePushInfo *info = [[V2TIMOfflinePushInfo alloc] init];
+    info.ext = [self convertToJsonData:dict];
+    
+    [[V2TIMManager sharedInstance] sendMessage:msg.msg
                                      receiver:!isGroup?currentReceiver: nil
                                       groupID:isGroup?currentReceiver: nil
                                       priority:V2TIM_PRIORITY_DEFAULT
                                 onlineUserOnly:false
-                               offlinePushInfo:nil
+                               offlinePushInfo:info
                                       progress:^(uint32_t progress) {
         
     } succ:^{
-        succ(info);
+        succ(msg);
     } fail:^(int code, NSString *desc) {
         fail(code, desc);
     }];
@@ -237,14 +244,16 @@
 #pragma mark - private method
 
 - (void)configAppAPNSDeviceToken {
-    V2TIMAPNSConfig *confg = [[V2TIMAPNSConfig alloc] init];
-    confg.businessID = [businessID intValue];
-    confg.token = deviceToken;
-    [[V2TIMManager sharedInstance] setAPNS:confg succ:^{
-        RCTLog(@"[TXIMManager] configAppAPNSDeviceToken #success");
-    } fail:^(int code, NSString *desc) {
-        RCTLog(@"[TXIMManager] configAppAPNSDeviceToken #fail reason:%@", desc);
-    }];
+    if (deviceToken != nil && [[V2TIMManager sharedInstance] getLoginStatus] == V2TIM_STATUS_LOGINED) {
+        V2TIMAPNSConfig *confg = [[V2TIMAPNSConfig alloc] init];
+        confg.businessID = [businessID intValue];
+        confg.token = deviceToken;
+        [[V2TIMManager sharedInstance] setAPNS:confg succ:^{
+            RCTLog(@"[TXIMManager] configAppAPNSDeviceToken #success");
+        } fail:^(int code, NSString *desc) {
+            RCTLog(@"[TXIMManager] configAppAPNSDeviceToken #fail reason:%@", desc);
+        }];
+    }
 }
 
 - (void)onConnecting {
@@ -300,6 +309,33 @@
 
 - (NSMutableArray*) getConversation {
     return convLists;
+}
+
+- (NSString *)convertToJsonData:(NSDictionary *)dict
+{
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&error];
+    NSString *jsonString;
+
+    if (!jsonData) {
+        NSLog(@"%@",error);
+    } else {
+        jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+
+    NSMutableString *mutStr = [NSMutableString stringWithString:jsonString];
+
+    NSRange range = {0,jsonString.length};
+
+    //去掉字符串中的空格
+    [mutStr replaceOccurrencesOfString:@" " withString:@"" options:NSLiteralSearch range:range];
+
+    NSRange range2 = {0,mutStr.length};
+
+    //去掉字符串中的换行符
+    [mutStr replaceOccurrencesOfString:@"\n" withString:@"" options:NSLiteralSearch range:range2];
+
+    return mutStr;
 }
 
 @end
