@@ -179,7 +179,6 @@
 - (void)sendMessage:(int)type
             content:(NSString *)content
             isGroup:(BOOL)isGroup
-             option:(NSDictionary *)option
                succ:(TXIMSendMsgSucc)succ
                fail:(TIMFail)fail {
     if ([[V2TIMManager sharedInstance] getLoginStatus] != V2TIM_STATUS_LOGINED) {
@@ -187,7 +186,7 @@
         return;
     }
     
-    TXIMMessageInfo *msg = [TXIMMessageBuilder buildMessage:type content:content option:option];
+    TXIMMessageInfo *msg = [TXIMMessageBuilder buildMessage:type content:content option:nil];
     msg.sender = [[V2TIMManager sharedInstance] getLoginUser];
     msg.receiver = currentReceiver;
     msg.isSelf = YES;

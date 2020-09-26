@@ -279,12 +279,14 @@ public class TXIMManager {
                 convLists.add(conv);
             }
         }
-        Collections.sort(convLists, new Comparator<V2TIMConversation>() {
-            @Override
-            public int compare(V2TIMConversation obj1, V2TIMConversation obj2) {
-                return (int)obj2.getLastMessage().getTimestamp() - (int)obj1.getLastMessage().getTimestamp();
-            }
-        });
+        if (convLists.size() > 0) {
+            Collections.sort(convLists, new Comparator<V2TIMConversation>() {
+                @Override
+                public int compare(V2TIMConversation obj1, V2TIMConversation obj2) {
+                    return (int)obj2.getLastMessage().getTimestamp() - (int)obj1.getLastMessage().getTimestamp();
+                }
+            });
+        }
     }
 
     private String getConversationIDFromConversation(V2TIMConversation conv) {

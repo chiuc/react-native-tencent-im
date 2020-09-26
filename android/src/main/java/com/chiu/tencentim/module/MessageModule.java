@@ -16,7 +16,6 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
-import com.tencent.imsdk.v2.V2TIMCallback;
 import com.tencent.imsdk.v2.V2TIMConversationResult;
 import com.tencent.imsdk.v2.V2TIMMessage;
 import com.tencent.imsdk.v2.V2TIMSendCallback;
@@ -24,8 +23,6 @@ import com.tencent.imsdk.v2.V2TIMValueCallback;
 
 
 import org.json.JSONException;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -109,7 +106,7 @@ public class MessageModule extends BaseModule {
     }
 
     @ReactMethod
-    private void sendMessage(int type, String content, Boolean isGroup,final Promise promise) {
+    private void sendMessage(int type, String content, Boolean isGroup, final Promise promise) {
         try {
             TXIMManager.getInstance().sendMessage(type, content, isGroup, new V2TIMSendCallback<V2TIMMessage>() {
                 @Override

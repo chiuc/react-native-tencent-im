@@ -89,7 +89,6 @@ RCT_REMAP_METHOD(sendMessage,
                   sendMessage:(int)type
                   content:(NSString *)content
                   isGroup:(BOOL)isGroup
-                 option:(NSDictionary *)option
                  resolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject) {
     TXIMManager *manager = [TXIMManager getInstance];

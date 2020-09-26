@@ -44,7 +44,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sendMessage:(int)type
             content:(NSString *)content
             isGroup:(BOOL)isGroup
-             option:(NSDictionary *)option
                succ:(TXIMSendMsgSucc)succ
                fail:(TIMFail)fail;
 
