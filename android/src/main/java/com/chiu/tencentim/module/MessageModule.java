@@ -50,7 +50,6 @@ public class MessageModule extends BaseModule {
         eventNameDict.put("onNewMessage", TXIMEventNameConstant.ON_NEW_MESSAGE);
         eventNameDict.put("onConversationRefresh", TXIMEventNameConstant.ON_CONVERSATION_REFRESH);
 
-
         Map<String, Object> dict = new HashMap<>();
         dict.put("EventName", eventNameDict);
         return dict;
