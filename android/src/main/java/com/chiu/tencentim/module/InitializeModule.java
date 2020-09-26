@@ -72,7 +72,7 @@ public class InitializeModule extends BaseModule {
     @Override
     public void configListener() {
         super.configListener();
-        TXIMManager.getInstance().setConversationListener(new ConversationListener(this));
+        TXIMManager.getInstance().setConversationListener(new ConversationListener(this, TXIMEventNameConstant.ON_CONVERSATION_REFRESH));
         TXIMManager.getInstance().setAdvancedMsgListener(new AdvancedMessageListener(this, TXIMEventNameConstant.ON_NEW_MESSAGE));
     }
 
