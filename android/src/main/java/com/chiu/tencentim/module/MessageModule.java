@@ -106,9 +106,9 @@ public class MessageModule extends BaseModule {
     }
 
     @ReactMethod
-    private void sendMessage(int type, String content, Boolean isGroup, final Promise promise) {
+    private void sendMessage(String content, Boolean isGroup, final Promise promise) {
         try {
-            TXIMManager.getInstance().sendMessage(type, content, isGroup, new V2TIMSendCallback<V2TIMMessage>() {
+            TXIMManager.getInstance().sendMessage(1, content, isGroup, new V2TIMSendCallback<V2TIMMessage>() {
                 @Override
                 public void onProgress(int i) {
 

@@ -264,6 +264,9 @@ public class TXIMManager {
     }
 
     public void updateConversationWithList(List<V2TIMConversation> convList) {
+        if (convLists == null) {
+            convLists = new ArrayList<V2TIMConversation>();
+        }
         for (int i = 0 ; i < convList.size() ; ++ i) {
             V2TIMConversation conv = convList.get(i);
             boolean isExit = false;

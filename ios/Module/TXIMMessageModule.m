@@ -86,13 +86,12 @@ RCT_REMAP_METHOD(getConversation,
 }
 
 RCT_REMAP_METHOD(sendMessage,
-                  sendMessage:(int)type
                   content:(NSString *)content
                   isGroup:(BOOL)isGroup
                  resolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject) {
     TXIMManager *manager = [TXIMManager getInstance];
-    [manager sendMessage:type content:content isGroup:isGroup option:option succ:^(TXIMMessageInfo * _Nonnull msg) {
+    [manager sendMessage:@1 content:content isGroup:isGroup option:option succ:^(TXIMMessageInfo * _Nonnull msg) {
         resolve(@{
           @"code": @(0),
           @"msg": @"getConversation Success",
