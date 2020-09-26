@@ -211,7 +211,7 @@ public class TXIMMessageInfo {
             map.putString("sender", getSender());
         }
         map.putInt("msgType", getMsgType());
-        map.putDouble("msgTime", (int)getMsgTime());
+        map.putDouble("msgTime", getMsgTime());
         map.putBoolean("self", isSelf());
         map.putBoolean("read", isRead());
         map.putInt("status", getStatus());

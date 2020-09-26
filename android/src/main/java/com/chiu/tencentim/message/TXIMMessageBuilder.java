@@ -48,7 +48,7 @@ public class TXIMMessageBuilder {
         info.setMsg(msg);
         info.setMsgId(msg.getMsgID());
         info.setMsgType(msg.getElemType());
-        info.setMsgTime(msg.getTimestamp() * 1000);
+        info.setMsgTime(msg.getTimestamp());
         info.setSelf(msg.isSelf());
         if (msg.getElemType() == V2TIMMessage.V2TIM_ELEM_TYPE_TEXT) {
             info.setExtra(msg.getTextElem().getText());
