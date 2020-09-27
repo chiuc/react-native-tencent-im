@@ -200,6 +200,7 @@ public class TXIMMessageInfo {
 
     public WritableMap toDict() {
         WritableMap map = Arguments.createMap();
+        map.putString("msgId", getMsgId());
         map.putString("imgWidth", "");
         map.putString("imgHeight", "");
         map.putString("lat", "");
