@@ -32,7 +32,7 @@ import javax.annotation.Nonnull;
 
 public class InitializeModule extends BaseModule {
 
-    private Context context;
+    private ReactApplicationContext context;
 
     public InitializeModule(ReactApplicationContext reactContext) {
         super(reactContext);

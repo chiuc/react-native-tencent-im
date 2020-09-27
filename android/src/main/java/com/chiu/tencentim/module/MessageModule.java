@@ -35,7 +35,7 @@ import javax.annotation.Nonnull;
 
 public class MessageModule extends BaseModule {
 
-    private Context context;
+    private ReactApplicationContext context;
 
     public MessageModule(ReactApplicationContext reactContext) {
         super(reactContext);
