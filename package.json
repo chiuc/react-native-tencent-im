@@ -13,7 +13,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "publishConfig": {
-    "registry":"https://gitlab.com/api/v4/projects/react-native-tencent-im/packages/npm/"
+    "registry":"https://gitlab.com/api/v4/projects/21401676/packages/npm/"
   },
   "repository": {
     "type": "git",
