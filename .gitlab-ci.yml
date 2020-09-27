@@ -21,6 +21,9 @@ build:
   script:
     - echo "CI_COMMIT_REF_SLUG=$CI_COMMIT_REF_SLUG"
     - echo "CI_COMMIT_SHORT_SHA=$CI_COMMIT_SHORT_SHA"
+    - echo "//gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}">.npmrc
+    - cat ".npmrc"
+    - echo "-----"
     - npm publish
 
     

@@ -1,7 +1,7 @@
 {
   "name": "react-native-tencent-im",
   "title": "React Native Tencent Im",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "TODO",
   "main": "index.js",
   "directories": {
@@ -13,7 +13,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "publishConfig": {
-    "@gitlab:registry":"https://gitlab.com/api/v4/projects/react-native-tencent-im/packages/npm/"
+    "registry":"https://gitlab.com/api/v4/projects/react-native-tencent-im/packages/npm/"
   },
   "repository": {
     "type": "git",
