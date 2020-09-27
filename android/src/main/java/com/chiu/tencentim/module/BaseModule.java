@@ -20,11 +20,18 @@ abstract public class BaseModule extends ReactContextBaseJavaModule {
     @Override
     public void initialize() {
         super.initialize();
+        if(this.respondsToSelector("configListener")) {
+            this.configListener();
+        }
     }
 
     public BaseModule(ReactApplicationContext reactContext) {
         super(reactContext);
         context = reactContext;
+    }
+
+    public void configListener() {
+
     }
 
     /**
