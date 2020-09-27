@@ -23,12 +23,12 @@ public class TXIMPackage implements ReactPackage {
 
     @Nonnull
     @Override
+    // Important: This function will be re-called during reload
+    // reactContext will be changed
     public List<NativeModule> createNativeModules(@Nonnull ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
-        if (initializeModule == null) {
-            initializeModule = new InitializeModule(reactContext);
-        }
-        modules.add(initializeModule);
+
+        modules.add(new InitializeModule(reactContext));
         modules.add(new MessageModule(reactContext));
         return modules;
     }
@@ -44,9 +44,6 @@ public class TXIMPackage implements ReactPackage {
     protected void init(ReactApplicationContext reactContext) {
         if (Looper.myLooper() == null) {
             Looper.prepare();
-        }
-        if (initializeModule != null) {
-//            initializeModule.init(0);
         }
     }
 }

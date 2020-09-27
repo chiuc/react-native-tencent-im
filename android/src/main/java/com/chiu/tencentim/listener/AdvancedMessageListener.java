@@ -13,9 +13,12 @@ public class AdvancedMessageListener extends V2TIMAdvancedMsgListener {
     protected BaseModule module;
     protected String event;
 
-    public AdvancedMessageListener(BaseModule module, String event) {
-        this.module = module;
+    public AdvancedMessageListener(String event) {
         this.event = event;
+    }
+
+    public void setModule(BaseModule module) {
+        this.module = module;
     }
 
     @Override

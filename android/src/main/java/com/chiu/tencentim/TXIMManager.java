@@ -2,6 +2,9 @@ package com.chiu.tencentim;
 
 import android.content.Context;
 
+import com.chiu.tencentim.constant.TXIMEventNameConstant;
+import com.chiu.tencentim.listener.AdvancedMessageListener;
+import com.chiu.tencentim.listener.ConversationListener;
 import com.chiu.tencentim.message.TXIMMessageBuilder;
 import com.chiu.tencentim.message.TXIMMessageInfo;
 import com.facebook.react.bridge.Arguments;
@@ -49,6 +52,18 @@ public class TXIMManager {
 
     private List<V2TIMConversation> convLists;
 
+    public ConversationListener getConversationListener() {
+        return conversationListener;
+    }
+
+    private ConversationListener conversationListener;
+
+    public AdvancedMessageListener getAdvancedMessageListener() {
+        return advancedMessageListener;
+    }
+
+    private AdvancedMessageListener advancedMessageListener;
+
     public static TXIMManager getInstance(){
         if(instance == null){
             instance = new TXIMManager();
@@ -77,13 +92,16 @@ public class TXIMManager {
                 super.onConnectFailed(code, error);
             }
         });
+        this.setConversationListener(new ConversationListener(TXIMEventNameConstant.ON_CONVERSATION_REFRESH));
+        this.setAdvancedMsgListener(new AdvancedMessageListener( TXIMEventNameConstant.ON_NEW_MESSAGE));
     }
 
     public void configBusinessID(String token) {
         businessID = token;
     }
 
-    public void setConversationListener(V2TIMConversationListener listener) {
+    public void setConversationListener(ConversationListener listener) {
+        this.conversationListener = listener;
         V2TIMManager.getConversationManager().setConversationListener(listener);
     }
 
@@ -91,7 +109,8 @@ public class TXIMManager {
         V2TIMManager.getInstance().addSimpleMsgListener(listener);
     }
 
-    public void setAdvancedMsgListener(V2TIMAdvancedMsgListener listener) {
+    public void setAdvancedMsgListener(AdvancedMessageListener listener) {
+        this.advancedMessageListener = listener;
         V2TIMManager.getMessageManager().addAdvancedMsgListener(listener);
     }
 
