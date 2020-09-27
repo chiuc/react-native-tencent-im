@@ -35,7 +35,7 @@ import javax.annotation.Nonnull;
 
 public class MessageModule extends BaseModule {
 
-    private Context context;
+    private ReactApplicationContext context;
 
     public MessageModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -49,6 +49,7 @@ public class MessageModule extends BaseModule {
         Map<String, Object> eventNameDict = new HashMap<>();
         eventNameDict.put("onNewMessage", TXIMEventNameConstant.ON_NEW_MESSAGE);
         eventNameDict.put("onConversationRefresh", TXIMEventNameConstant.ON_CONVERSATION_REFRESH);
+
 
         Map<String, Object> dict = new HashMap<>();
         dict.put("EventName", eventNameDict);
