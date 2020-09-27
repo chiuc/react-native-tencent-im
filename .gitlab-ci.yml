@@ -1,0 +1,26 @@
+image: docker:git
+services:
+  - docker:dind
+
+stages:
+  - build
+
+variables:
+  CI_REGISTRY: registry.gitlab.com
+  CI_CONTAINER_TAG_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  CI_CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
+
+
+## Build context
+build:
+  stage: build
+  image: node:12
+  artifacts:
+    paths:
+      - bundle/
+  script:
+    - echo "CI_COMMIT_REF_SLUG=$CI_COMMIT_REF_SLUG"
+    - echo "CI_COMMIT_SHORT_SHA=$CI_COMMIT_SHORT_SHA"
+    - npm publish
+
+    

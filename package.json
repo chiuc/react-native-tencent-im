@@ -12,6 +12,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "publishConfig": {
+    "@gitlab:registry":"https://gitlab.com/api/v4/projects/react-native-tencent-im/packages/npm/"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/chiuc/react-native-tencent-im.git",
