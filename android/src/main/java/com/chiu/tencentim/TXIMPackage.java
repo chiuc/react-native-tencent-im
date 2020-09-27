@@ -12,6 +12,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -35,7 +36,8 @@ public class TXIMPackage implements ReactPackage {
     @Nonnull
     @Override
     public List<ViewManager> createViewManagers(@Nonnull ReactApplicationContext reactContext) {
-        return null;
+        // Required to provide emtpy list instead of null
+        return Collections.emptyList();
     }
 
     @MainThread
