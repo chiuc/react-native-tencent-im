@@ -18,9 +18,12 @@ public class ConversationListener extends V2TIMConversationListener {
     protected BaseModule module;
     protected String event;
 
-    public ConversationListener(BaseModule module, String event) {
-        this.module = module;
+    public ConversationListener(String event) {
         this.event = event;
+    }
+
+    public void setModule(BaseModule module) {
+        this.module = module;
     }
 
     @Override

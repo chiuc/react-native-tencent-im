@@ -32,7 +32,7 @@ import javax.annotation.Nonnull;
 
 public class InitializeModule extends BaseModule {
 
-    private ReactApplicationContext context;
+    private Context context;
 
     public InitializeModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -69,11 +69,10 @@ public class InitializeModule extends BaseModule {
         return dict;
     }
 
-    @Override
     public void configListener() {
-        super.configListener();
-        TXIMManager.getInstance().setConversationListener(new ConversationListener(this, TXIMEventNameConstant.ON_CONVERSATION_REFRESH));
-        TXIMManager.getInstance().setAdvancedMsgListener(new AdvancedMessageListener(this, TXIMEventNameConstant.ON_NEW_MESSAGE));
+        // Update module instead of create new listener for prevent memory leak
+        TXIMManager.getInstance().getConversationListener().setModule(this);
+        TXIMManager.getInstance().getAdvancedMessageListener().setModule(this);
     }
 
     @Nonnull
@@ -92,6 +91,7 @@ public class InitializeModule extends BaseModule {
 
             @Override
             public void onSuccess() {
+                configListener();
                 WritableMap map = Arguments.createMap();
                 map.putInt("code", 0);
                 map.putString("msg", "Login Success");
