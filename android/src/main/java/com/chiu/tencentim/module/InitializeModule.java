@@ -117,4 +117,9 @@ public class InitializeModule extends BaseModule {
             }
         });
     }
+
+    @ReactMethod
+    private void updatePushToken(String token) {
+        TXIMManager.getInstance().updatePushToken(token);
+    }
 }

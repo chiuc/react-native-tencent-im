@@ -7,6 +7,8 @@ export class TXIMInitModule {
     static login: (identify: string, userSign: string) => Promise<IMResponse>;
     /**登出*/
     static logout: () => Promise<boolean>;
+
+    static updatePushToken: (token: string) => any;
 }
 
 export class TXIMChatModule {
