@@ -9,6 +9,7 @@ import com.chiu.tencentim.message.TXIMMessageBuilder;
 import com.chiu.tencentim.message.TXIMMessageInfo;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
+import com.tencent.imsdk.TIMOfflinePushToken;
 import com.tencent.imsdk.v2.V2TIMAdvancedMsgListener;
 import com.tencent.imsdk.v2.V2TIMCallback;
 import com.tencent.imsdk.v2.V2TIMConversation;
@@ -17,6 +18,7 @@ import com.tencent.imsdk.v2.V2TIMConversationResult;
 import com.tencent.imsdk.v2.V2TIMManager;
 import com.tencent.imsdk.v2.V2TIMMessage;
 import com.tencent.imsdk.v2.V2TIMMessageManager;
+import com.tencent.imsdk.v2.V2TIMOfflinePushConfig;
 import com.tencent.imsdk.v2.V2TIMOfflinePushInfo;
 import com.tencent.imsdk.v2.V2TIMSDKConfig;
 import com.tencent.imsdk.v2.V2TIMSDKListener;
@@ -50,6 +52,8 @@ public class TXIMManager {
 
     private static String sdkAppId;
 
+    private static V2TIMOfflinePushConfig pushConfig;
+
     private List<V2TIMConversation> convLists;
 
     public ConversationListener getConversationListener() {
@@ -71,10 +75,12 @@ public class TXIMManager {
         return instance;
     }
 
-    public void initWithAppId(Context context, String sdkAppID) {
+    public void initWithAppId(Context context, String sdkAppID, String businessID) {
         appContext = context;
         V2TIMSDKConfig config = new V2TIMSDKConfig();
         config.setLogLevel(V2TIMSDKConfig.V2TIM_LOG_INFO);
+        this.configBusinessID(businessID);
+        sdkAppId = sdkAppID;
 
         V2TIMManager.getInstance().initSDK(context, Integer.parseInt(sdkAppID), config, new V2TIMSDKListener() {
             @Override
@@ -136,6 +142,9 @@ public class TXIMManager {
 
                         @Override
                         public void onSuccess() {
+                            if (pushConfig != null) {
+                                V2TIMManager.getOfflinePushManager().setOfflinePushConfig(pushConfig, null);
+                            }
                             callback.onSuccess();
                         }
                     });
@@ -150,6 +159,9 @@ public class TXIMManager {
 
                 @Override
                 public void onSuccess() {
+                    if (pushConfig != null) {
+                        V2TIMManager.getOfflinePushManager().setOfflinePushConfig(pushConfig, null);
+                    }
                     callback.onSuccess();
                 }
             });
@@ -309,6 +321,14 @@ public class TXIMManager {
                     return (int)obj2.getLastMessage().getTimestamp() - (int)obj1.getLastMessage().getTimestamp();
                 }
             });
+        }
+    }
+
+    public void updatePushToken(String token) {
+        V2TIMOfflinePushConfig param = new V2TIMOfflinePushConfig(Long.parseLong(businessID), token);
+        pushConfig = param;
+        if (V2TIMManager.getInstance().getLoginStatus() == V2TIMManager.V2TIM_STATUS_LOGINED) {
+            V2TIMManager.getOfflinePushManager().setOfflinePushConfig(pushConfig, null);
         }
     }
 
