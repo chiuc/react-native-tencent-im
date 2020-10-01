@@ -78,7 +78,7 @@ public class TXIMManager {
     public void initWithAppId(Context context, String sdkAppID, String businessID) {
         appContext = context;
         V2TIMSDKConfig config = new V2TIMSDKConfig();
-        config.setLogLevel(V2TIMSDKConfig.V2TIM_LOG_INFO);
+        config.setLogLevel(V2TIMSDKConfig.V2TIM_LOG_NONE);
         this.configBusinessID(businessID);
         sdkAppId = sdkAppID;
 
