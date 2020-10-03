@@ -10,12 +10,22 @@
 #import "TXIMEventNameConstant.h"
 #import "TXIMMessageBuilder.h"
 
+#import "TXIMConversationListener.h"
+#import "TXIMSimpleMessageListener.h"
+#import "TXIMAdvancedMessageListener.h"
+
 @implementation TXIMMessageModule
 
 #pragma mark - RCTEventEmitter
 
 - (NSArray<NSString *> *)supportedEvents {
     return @[EventNameOnNewMessage, EventNameConversationUpdate];
+}
+
+- (void)configListener {
+    TXIMManager *manager = [TXIMManager getInstance];
+    [manager setConversationListener:[[TXIMConversationListener alloc] initWithModule:self eventName:EventNameConversationUpdate]];
+    [manager setAdvancedMsgListener:[[TXIMAdvancedMessageListener alloc] initWithModule:self eventName:EventNameOnNewMessage]];
 }
 
 - (void)startObserving {

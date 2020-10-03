@@ -26,12 +26,6 @@
 
 - (void)configListener {
     TXIMManager *manager = [TXIMManager getInstance];
-
-    [manager setConversationListener:[[TXIMConversationListener alloc] initWithModule:self eventName:EventNameConversationUpdate]];
-    
-//    [manager setSimpleMessageListener:[[TXIMSimpleMessageListener alloc] initWithModule:self eventName:EventNameOnNewMessage]];
-    
-    [manager setAdvancedMsgListener:[[TXIMAdvancedMessageListener alloc] initWithModule:self eventName:EventNameOnNewMessage]];
 }
 
 - (void)startObserving {
